@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model link {
+  code         String   @unique
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  expiresAt    DateTime @db.Timestamptz(6)
+  id           String   @id @db.Uuid
+  maxVisits    Int?
+  message      String   @db.VarChar(100)
+  oneTime      Boolean  @default(false)
+  passwordHash String?
+  updatedAt    DateTime @db.Timestamptz(6)
+  used         Boolean  @default(false)
+  visitCount   Int      @default(0)
+
+  @@index([expiresAt], map: "link_expiresAt_idx_6b6b8c10")
+}
