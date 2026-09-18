@@ -14,11 +14,6 @@ services:
         fromDatabase:
           name: link-expiry-db
           property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: link-expiry-redis
-          property: connectionString
       - key: FRONTEND_URL
         value: https://link-expiry-ui.vercel.app
 
@@ -28,6 +23,3 @@ databases:
     region: oregon
     databaseName: link_expiry
     user: link_expiry_user
-
-# Note: Render offers Redis instances starting from the Starter plan or free trial.
-# Alternatively, you can connect an Upstash Redis URL via environment variables.
