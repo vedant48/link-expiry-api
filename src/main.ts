@@ -50,9 +50,9 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
-  await app.listen(port);
-  logger.log(`Application is running on: http://localhost:${port}`);
-  logger.log(`Swagger docs available at: http://localhost:${port}/api/docs`);
+  await app.listen(port, '0.0.0.0');
+  logger.log(`Application is running on port ${port} (0.0.0.0)`);
+  logger.log(`Swagger docs available at port ${port}: /api/docs`);
 }
 
 void bootstrap().catch((err: unknown) => {
