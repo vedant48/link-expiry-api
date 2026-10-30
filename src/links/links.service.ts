@@ -102,7 +102,7 @@ export class LinksService {
       }
     }
 
-    // 5. Atomically claim access
+    // 5. Compare the live columns inside the UPDATE, not the earlier snapshot.
     const result = await this.prisma.link.updateMany({
       where: {
         id: link.id,
@@ -113,8 +113,8 @@ export class LinksService {
                 maxVisits: null,
               },
               {
-                maxVisits: {
-                  gt: link.visitCount,
+                visitCount: {
+                  lt: this.prisma.link.fields.maxVisits,
                 },
               },
             ],
