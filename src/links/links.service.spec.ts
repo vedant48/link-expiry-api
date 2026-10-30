@@ -13,6 +13,7 @@ describe('LinksService', () => {
       findUnique: jest.Mock;
       updateMany: jest.Mock;
       deleteMany: jest.Mock;
+      fields: { maxVisits: string };
     };
   };
   let redisMock: {
@@ -27,6 +28,7 @@ describe('LinksService', () => {
         findUnique: jest.fn(),
         updateMany: jest.fn(),
         deleteMany: jest.fn(),
+        fields: { maxVisits: 'FIELDREF_maxVisits' },
       },
     };
 
@@ -191,6 +193,8 @@ describe('LinksService', () => {
       const result = await service.accessLink('valid123');
       expect(result).toEqual({ message: 'Valid message' });
       expect(prismaMock.link.updateMany).toHaveBeenCalled();
+      expect(prismaMock.link.updateMany.mock.calls[0][0].where.AND[0].OR)
+        .toContainEqual({ visitCount: { lt: 'FIELDREF_maxVisits' } });
     });
 
     it('should throw GoneException if link claim count is 0', async () => {
